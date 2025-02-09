@@ -1,9 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Sleep Tracker</title>
-</head>
-<body>
-    <h1>Welcome to Sleep Tracker</h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome to the Sleep Tracker</h1>
+    
+    {% if not current_user.is_authenticated %}
+        <p>Track your sleep patterns easily. Log in or sign up to get started.</p>
+        <a href="{{ url_for('auth.login') }}" class="btn">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="btn">Register</a>
+    {% else %}
+        <p>Welcome back, {{ current_user.username }}!</p>
+        <a href="{{ url_for('dashboard.view_dashboard') }}" class="btn">Go to Dashboard</a>
+    {% endif %}
+{% endblock %}
