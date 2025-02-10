@@ -25,7 +25,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('Logged out successfully!', 'info')
+    flash('Logged out successfull   y!', 'info')
     return redirect(url_for('main.home'))
 
 @auth.route("/register", methods=['GET', 'POST'])
