@@ -23,6 +23,7 @@ def log_sleep():
         if existing_entry:
             flash("A log exists for this date")
             return redirect(url_for('edit_sleep_log', log_id = existing_entry.id))
+
         new_log = SleepLog(
             user_id=current_user.id,
             date=form.date.data,
@@ -30,7 +31,7 @@ def log_sleep():
             risetime=form.risetime.data,
             sleep_quality=form.sleep_quality.data,
             relative_quality=form.relative_quality.data,
-            awakenings=form.awakenings.data,
+            awakenings=int(form.awakenings.data) if form.awakenings.data is not None else 0,   #wrap this in a try statement later for form validation
             OSA_interventions=form.OSA_interventions.data,
             caffeine=form.caffeine.data,
             sleep_aid=form.sleep_aid.data,
@@ -44,5 +45,53 @@ def log_sleep():
         db.session.add(new_log)
         db.session.commit()
         flash("Log entry added. Success!", "success")
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboard.view_dashboard'))
     return render_template('sleep_log.html', form=form)
+
+
+
+@sleep_log.route("/sleep_logs")
+@login_required
+def sleep_logs():
+    logs = SleepLog.query.filter_by(user_id=current_user.id).order_by(SleepLog.date)
+    return render_template('sleep_logs.html', logs=logs)
+
+
+@sleep_log.route("/edit_log.<int:log_id>", methods=["GET", "POST"])
+@login_required
+def edit_log(log_id):
+    log = SleepLog.query.filter_by(id=log_id, user_id=current_user.id).first_or_404()
+    form = SleepLogForm(obj=log)
+
+    if form.validate_on_submit():
+        log.date = form.date.data
+        log.bedtime = form.bedtime.data
+        log.risetime = form.risetime.data
+        log.sleep_quality = form.sleep_quality.data
+        log.relative_quality = form.relative_quality.data
+        try:
+            log.awakenings = int(form.awakenings.data) if form.awakenings.data is not None else 0
+        except ValueError:
+            flash("Invalid entry for awakenings", "danger")
+            return render_template("edit_log.html", form=form, log=log)
+
+        log.OSA_interventions = form.OSA_interventions.data
+        log.caffeine = form.caffeine.data
+        log.sleep_aid, log.alcohol, log.cannabis = form.sleep_aid.data, form.alcohol.data, form.cannabis.data
+        log.typical_day = form.typical_day.data
+
+        db.session.commit()
+        flash("Edit success!", "success")
+        return redirect(url_for("sleep_log.sleep_logs"))
+    return render_template("edit_log.html", form=form, log=log)
+
+
+@sleep_log.route("/delete/<int:log_id>", methods=["POST"])
+@login_required
+def delete_log(log_id):
+    log = SleepLog.query.filter_by(id=log_id, user_id=current_user.id).first_or_404()
+    db.session.delete(log)
+    db.session.commit()
+    flash("Sleep log successfully deleted", "success")
+    return redirect(url_for("sleep_log.sleep_logs"))
+

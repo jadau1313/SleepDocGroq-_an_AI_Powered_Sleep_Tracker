@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Edit Sleep Log{% endblock %}
+
+{% block content %}
+<h2>Edit Sleep Log</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <label>Date:</label> {{ form.date() }} <br>
+    <label>Bedtime:</label> {{ form.bedtime() }} <br>
+    <label>Risetime:</label> {{ form.risetime() }} <br>
+    <label>Sleep Quality:</label> {{ form.sleep_quality() }} <br>
+    <label>Compared to usual:</label> {{ form.relative_quality() }} <br>
+    <label>Number of awakenings:</label> {{ form.awakenings() }} <br>
+    <label>OSA or other sleep disorder interventions used? (ie CPAP/BPAP, mandibular advancement device, Inspire, etc...)</label> {{ form.OSA_interventions() }} <br>
+    <label>Caffeine within 8 hours?</label> {{ form.caffeine() }} <br>
+    <label>Sleep aid use?</label> {{ form.sleep_aid() }} <br>
+    <label>Alcohol today?</label> {{ form.alcohol() }} <br>
+    <label>Cannabis today?</label> {{ form.cannabis() }} <br>
+    <label>Was this a typical day?</label> {{ form.typical_day() }} <br>
+    
+    <input type="submit" value="Save Changes">
+    <a href="{{ url_for('sleep_log.sleep_logs') }}">Cancel</a>
+</form>
+{% endblock %}

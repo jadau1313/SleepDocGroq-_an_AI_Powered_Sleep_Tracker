@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Your Sleep Logs</h2>
+<table>
+    <tr>
+        <th>Bed Time</th>
+        <th>Rise Time</th>
+        <th>Awakenings</th>
+        <th>Quality</th>
+        <th>Relative Quality to other nights</th>
+        <th>Actions</th>
+    </tr>
+    {% for log in logs %}
+    <tr>
+        <td>{{ log.bedtime }}</td>
+        <td>{{ log.risetime }}</td>
+        <td>{{ log.awakenings }}</td>
+        <td>{{ log.sleep_quality }}</td>
+        <td>{{ log.relative_quality }}</td>
+
+        <td>
+            <a href="{{ url_for('sleep_log.edit_log', log_id=log.id) }}">Edit</a> | 
+            <!--<a href="{{ url_for('sleep_log.delete_log', log_id=log.id) }}" onclick="return confirm('Are you sure?')">Delete</a>-->
+            <form action="{{ url_for('sleep_log.delete_log', log_id=log.id) }}" method="POST" style="display:inline;">
+                <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
