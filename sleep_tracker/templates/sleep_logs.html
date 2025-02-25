@@ -2,6 +2,9 @@
 
 {% block content %}
 <h2>Your Sleep Logs</h2>
+<a href = "{{ url_for('sleep_log.log_sleep') }}">
+    <button>Add New Entry</button>
+</a>
 <table>
     <tr>
         <th>Bed Time</th>
