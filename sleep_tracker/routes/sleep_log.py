@@ -29,7 +29,8 @@ def log_sleep():
     if form.validate_on_submit():
         if existing_entry:
             flash("A log exists for this date")
-            return redirect(url_for('edit_sleep_log', log_id = existing_entry.id))
+            #return redirect(url_for('edit_sleep_log', log_id = existing_entry.id))
+            #return redirect(url_for('sleep_log.edit_log', log_id=existing_entry.id))
 
         new_log = SleepLog(
             user_id=current_user.id,

@@ -1,5 +1,5 @@
 from flask_login import UserMixin, current_user
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from . import db
 
@@ -33,5 +33,8 @@ class SleepLog(db.Model):
         tomorrow = datetime.combine(self.date, self.risetime)
 
         if self.risetime < self.bedtime:
-            tomorrow = tomorrow.replace(day=self.date.day + 1)
+
+            # tomorrow = tomorrow.replace(day=self.date.day + 1)
+            tomorrow = tomorrow + timedelta(days=1)
+
         self.sleep_period_duration = int((tomorrow - today).total_seconds() / 60)
