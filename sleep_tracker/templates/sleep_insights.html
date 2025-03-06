@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Sleep Insights{% endblock %}
+
+{% block content %}
+<h2>Sleep Insights</h2>
+
+<ul>
+    <li><strong>Average Sleep Duration:</strong> {{ insights.average_duration|round(2) }} hours</li>
+    <li><strong>Most Common Bedtime:</strong> {{ insights.common_bedtime }}</li>
+    <li><strong>Average Awakenings:</strong> {{ insights.average_awakenings|round(2) }}</li>
+    <li><strong>Best Sleep Day:</strong> {{ insights.best_day }} (Quality: {{ insights.best_quality }})</li>
+    <li><strong>Worst Sleep Day:</strong> {{ insights.worst_day }} (Quality: {{ insights.worst_quality }})</li>
+    <li><strong>Alcohol Impact:</strong> {{ insights.alcohol_impact }}</li>
+    <li><strong>Cannabis Impact:</strong> {{ insights.cannabis_impact }}</li>
+</ul>
+
+<h3>AI Coach's Summary</h3>
+<p>{{ summary }}</p>
+
+<a href="{{ url_for('sleep_log.sleep_logs') }}">Back to Sleep Logs</a>
+{% endblock %}

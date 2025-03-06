@@ -4,5 +4,10 @@
 
 {% block content %}
 <h2>Welcome to Your Sleep Dashboard</h2>
-<p>Data visualizations will go here.</p>
+{% if graph_url %}
+    <img src="data:image/png;base64,{{ graph_url }}" alt="Sleep Duration Graph">
+{% else %}
+<p>No data to display</p>
+{% endif %}
+<!--<p>Data visualizations will go here.</p>-->
 {% endblock %}

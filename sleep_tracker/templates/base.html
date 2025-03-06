@@ -13,6 +13,7 @@
         {% if current_user.is_authenticated %}
             <a href="{{ url_for('dashboard.view_dashboard') }}">Dashboard</a> |
             <a href="{{ url_for('sleep_log.sleep_logs') }}" >Sleep Logs</a> |
+            <a href="{{ url_for('sleep_log.sleep_insights') }}" >AI Analysis</a> |
             <a href="{{ url_for('auth.logout') }}">Logout</a>
 
         {% else %}
